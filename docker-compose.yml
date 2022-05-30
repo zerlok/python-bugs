@@ -9,7 +9,7 @@ x-tests: &tests
   depends_on:
     - postgres
   environment:
-    DATABASE: postgres://user:pass@postgres:5432/test-db
+    DATABASE: postgresql+asyncpg://user:pass@postgres:5432/test-db
     SCHEMA: test-schema
   entrypoint: sh
   command: -c 'poetry run wait-for-it --service $${DATABASE} && poetry run pytest'
@@ -30,13 +30,5 @@ services:
       dockerfile: Dockerfile
       target: poetry
 
-  test-simple-enum:
+  test-sqlalchemy-enum:
     <<: *tests
-
-  test-postgres-enum:
-    <<: *tests
-    command: -c 'poetry run wait-for-it --service $${DATABASE} && poetry run pytest --gino-enum-type postgres'
-
-  test-postgres-enum-manual:
-    <<: *tests
-    command: -c 'poetry run wait-for-it --service $${DATABASE} && poetry run pytest --gino-enum-type postgres --gino-create-enum-type-manually'

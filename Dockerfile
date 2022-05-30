@@ -6,6 +6,7 @@ FROM python:${PYTHON_VERSION}-alpine AS poetry
 RUN apk add --no-cache \
         curl \
         gcc \
+        g++ \
         libressl-dev \
         musl-dev \
         libffi-dev && \

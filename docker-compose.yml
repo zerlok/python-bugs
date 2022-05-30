@@ -1,0 +1,38 @@
+version: '3.7'
+
+x-tests: &tests
+  image: zerlok/python-bugs/tests:latest
+  build:
+    context: .
+    dockerfile: Dockerfile
+    target: development
+  depends_on:
+    - postgres
+  environment:
+    DATABASE: postgres://user:pass@postgres:5432/test-db
+    SCHEMA: test-schema
+  entrypoint: sh
+  command: -c 'poetry run wait-for-it --service $${DATABASE} && poetry run pytest'
+
+services:
+  postgres:
+    image: postgres:11.10
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: test-db
+    command: postgres -c max_connections=20 -c shared_buffers=200MB
+
+  poetry:
+    image: zerlok/python-bugs/poetry:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: poetry
+
+  test-simple-enum:
+    <<: *tests
+
+  test-postgres-enum:
+    <<: *tests
+    command: -c 'poetry run wait-for-it --service $${DATABASE} && poetry run pytest --gino-enum-type postgres --gino-create-enum-type-manually'

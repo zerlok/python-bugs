@@ -20,6 +20,9 @@ build-backend = "poetry.core.masonry.api"
 
 # ---- pytest settings ----
 [tool.pytest.ini_options]
+addopts = [
+    "--asyncio-mode=auto",
+]
 markers = [
     "asyncio: test asyncio",
 ]

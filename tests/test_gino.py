@@ -77,7 +77,7 @@ class TestGinoEnum:
                     enum_type = f"{e.__name__.lower()}"
 
                 await engine.status(f"""
-                    create enum type {enum_type} ({",".join(quote_value(v) for v in e)})
+                    create type {enum_type} as enum ({",".join(quote_value(v) for v in e)})
                 """)
 
             await create_enum(Enum1)

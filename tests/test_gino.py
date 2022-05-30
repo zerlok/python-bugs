@@ -102,6 +102,7 @@ class TestGinoEnum:
 
     @pytest.mark.parametrize("n", (0, 1, 2))
     async def test_enum_type_filter(self, engine, clean_database, db_model, n) -> None:
+        # when n == 2, `the asyncpg.exceptions.InternalServerError: cache lookup failed for type 16453` occurs
         assert (await asyncio.gather(*(
             self.__get_bars(engine, db_model)
             for i in range(n)

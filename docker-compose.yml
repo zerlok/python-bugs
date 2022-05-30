@@ -35,4 +35,8 @@ services:
 
   test-postgres-enum:
     <<: *tests
+    command: -c 'poetry run wait-for-it --service $${DATABASE} && poetry run pytest --gino-enum-type postgres'
+
+  test-postgres-enum-manual:
+    <<: *tests
     command: -c 'poetry run wait-for-it --service $${DATABASE} && poetry run pytest --gino-enum-type postgres --gino-create-enum-type-manually'

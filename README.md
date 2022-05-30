@@ -4,6 +4,8 @@ use this project to quickly reproduce my bugs with python related tasks
 
 ## Troubles with GINO, sqlalchemy, postgres, Enum
 
+Bug report: https://github.com/python-gino/gino/issues/814
+
 * python dependencies
     ```
     asyncpg==0.25.0; python_version >= "3.5" and python_version < "4.0" and python_full_version >= "3.6.0"
